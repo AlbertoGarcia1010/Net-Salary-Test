@@ -1,0 +1,56 @@
+﻿@model Salary.Models.ViewModel.AssociateVM;
+
+@{
+    ViewData["Title"] = "Detalle del Asociado";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Detalles del Asociado</h1>
+</div>
+
+<div class="box box-primary">
+    <div>
+        <div class="mg">
+            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-primary" })
+        </div>
+        <hr />
+        <dl class="dl-horizontal text-center">
+            <dt>
+                @Html.DisplayNameFor(model => model.AssociateNumber)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AssociateNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CompleteName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CompleteName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AssociateSalary)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AssociateSalary)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.StatusName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.StatusName)
+            </dd>
+
+            <dt>
+                    @Html.DisplayNameFor(model => model.DateCreate)
+            </dt>
+            <dd>
+                    @Html.DisplayFor(model => model.DateCreate)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+

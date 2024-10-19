@@ -1,0 +1,140 @@
+﻿@{
+    ViewData["Title"] = "Asociados";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Asociados</h1>
+</div>
+<div>
+    <a href="@Url.Content("~/")Associate/Create"><button type="button" class="btn btn-primary col-12 col-md-12 col-sm-12 col-lg-2"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Asociado</button></a>
+</div>
+<div class="text-center">
+    <div style="width:100%; margin:0 auto;" class="table-responsive">
+        <table class="table" id="tableAssociate" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("No Asociado")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Nombre Completo")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Salario Base")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Departamento")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Salario Total")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Estado")
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+            console.log("script active");
+        $(document).ready(function () {
+            $('#tableAssociate').dataTable({
+                "autoWidth": true,
+                responsive: true,
+                "ajax": {
+                    "url": '@Url.Action("LoadAssociates", "Associate")',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "language": {
+                    "lengthMenu": "Ver _MENU_ registros por pagina",
+                    "zeroRecords": "Registro no encontrado - Lo sentimos",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos disponibles",
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                    "search": "Buscar",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": activar para ordenar la columna ascendente",
+                        "sortDescending": ": activar para ordenar la columna decendente"
+                    },
+                    "loadingRecords": "Leyendo...",
+                    "processing": "Procesando...",
+                    "infoEmpty": "Visualizando 0 a 0 de 0 registros"
+                },
+                "columnDefs":
+                    [
+                        {
+                            "targets": [2, 3, 4],
+                            "searchable": false,
+                            "orderable": false
+                        }
+                    ],
+                "columns": [
+                    { "data": "associateNumber", "name": "AssociateNumber", "autoWidth": true },
+                    {
+                        "data": "associateName", "name": "AssociateName", "autoWidth": true,
+                        "render": function (data, type, full, meta) {
+                            return `${full.associateName} ${full.associateFirstLastName} ${full.associateSecondLastName}`;
+                        }
+                    },
+                    { "data": "associateSalary", "name": "AssociateSalary", "autoWidth": true,
+                        "render": function (data, type, full, meta) {
+                            return `$ ${full.associateSalary}`;
+                        }
+                    },
+                    { "data": "name", "name": "DepartmentName", "autoWidth": true },
+                    { "data": "total", "name": "Total", "autoWidth": true,
+                        "render": function (data, type, full, meta) {
+                            return `$ ${full.total}`;
+                        }
+                    },
+                    {
+                        "data": "statusID", "name": "StatusID", "autoWidth": true,
+                        "render": function (data, type, full, meta) {
+                            let txtStatus = "";
+                            let colorStatus = "primary";
+                            switch (full.statusID) {
+                                case 1: txtStatus = "Activo"; colorStatus = "success"; break;
+                                case 2: txtStatus = "Inactivo"; colorStatus = "warning";  break;
+                                case 3: txtStatus = "Eliminado"; colorStatus = "danger"; break;
+                                default: txtStatus = ""; break;
+                            }
+                            return `<span class="badge ${colorStatus}">${txtStatus}</span>`;
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="btn btn-primary" href="@Url.Content("~/")Associate/Edit/' + full.associateNumber + '" title="Editar"><i class="fa fa-pencil" aria-hidden="true"></i></a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="btn btn-success" href="@Url.Content("~/")Associate/Details/' + full.associateNumber + '" title="Detalle"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="btn btn-danger" href="@Url.Content("~/")Associate/Delete/' + full.associateNumber + '" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                        }
+                    }
+
+                ],
+                "processing": true,
+                "serverSide": true,
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
+}

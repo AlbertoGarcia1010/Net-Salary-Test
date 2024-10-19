@@ -1,0 +1,82 @@
+﻿@model Salary.Models.ViewModel.IncrementVM;
+
+@{
+    ViewData["Title"] = "Incremento Salarial";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Incremento Salarial</h1>
+</div>
+
+<div>
+    <a href="@Url.Content("~/")Increment/Create"><button type="button" class="btn btn-primary col-12 col-md-12 col-sm-12 col-lg-2"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Incremento</button></a>
+</div>
+
+<div class="text-center">
+    <div style="width:100%; margin:0 auto;" class="table-responsive">
+        <table class="table" id="tableIncrements" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Departamento")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Incremento (%)")
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tableIncrements').dataTable({
+                "autoWidth": true,
+                responsive: true,
+                "ajax": {
+                    "url": '@Url.Action("LoadIncrease", "Increment")',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "language": {
+                    "lengthMenu": "Ver _MENU_ registros por pagina",
+                    "zeroRecords": "Registro no encontrado - Lo sentimos",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos disponibles",
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                    "search": "Buscar",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": activar para ordenar la columna ascendente",
+                        "sortDescending": ": activar para ordenar la columna decendente"
+                    },
+                    "loadingRecords": "Leyendo...",
+                    "processing": "Procesando...",
+                    "infoEmpty": "Visualizando 0 a 0 de 0 registros"
+                },
+                "columnDefs":
+                    [
+                        {
+                            "targets": [1],
+                            "searchable": false,
+                            "orderable": false
+                        }
+                    ],
+                "columns": [
+                    { "data": "name", "autoWidth": true },
+                    { "data": "incrementPercent", "autoWidth": true }
+                ],
+                "processing": true,
+                "serverSide": true,
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
+}

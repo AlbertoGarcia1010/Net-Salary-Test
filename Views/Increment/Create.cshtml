@@ -1,0 +1,51 @@
+﻿@model Salary.Models.ViewModel.IncrementVM;
+
+@{
+    ViewData["Title"] = "Incremento Salarial";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Incremento Salarial</h1>
+</div>
+
+<div class="box box-primary">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="mg">
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-primary mb-3" })
+            </div>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-12 col-md-12 col-sm-12 col-lg-6">
+                    @Html.LabelFor(model => model.IncrementPercent, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.IncrementPercent, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IncrementPercent, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-md-12 col-sm-12 col-lg-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DepartmentID, "DepartmentID", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("DepartmentID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Crear" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

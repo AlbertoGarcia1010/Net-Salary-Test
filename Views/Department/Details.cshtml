@@ -1,0 +1,45 @@
+﻿@model Salary.Models.Entities.Department;
+
+@{
+    ViewData["Title"] = "Detalle del Departamento";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Detalles del Departamento</h1>
+</div>
+
+<div class="box box-primary">
+    <div>
+        <div class="mg">
+            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-primary" })
+        </div>
+        <hr />
+        <dl class="dl-horizontal text-center">
+            <dt>
+                @Html.DisplayNameFor(model => model.Code)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Code)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateCreate)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+

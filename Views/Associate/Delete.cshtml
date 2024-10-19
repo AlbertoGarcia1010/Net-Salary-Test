@@ -1,0 +1,124 @@
+﻿@model Salary.Models.Entities.Associate;
+
+@{
+    ViewData["Title"] = "Eliminar Asociado";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Eliminar Asociado</h1>
+</div>
+
+<div class="box box-primary">
+    <div>
+        <div class="mg">
+            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-primary" })
+        </div>
+        <h3>¿Estas seguro de borrar el Registro?</h3>
+        <hr />
+        @Html.HiddenFor(model => model.AssociateID)
+        @Html.HiddenFor(model => model.AssociateNumber)
+        <dl class="dl-horizontal text-center">
+            <dt>
+                @Html.DisplayNameFor(model => model.AssociateNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AssociateNumber)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AssociateName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AssociateName)
+            </dd>
+
+            <dt>
+                    @Html.DisplayNameFor(model => model.DateCreate)
+            </dt>
+            <dd>
+                    @Html.DisplayFor(model => model.DateCreate)
+            </dd>
+        </dl>
+        <div class="form-actions no-color mg">
+            <button type="button" class="btn btn-primary mb-3" id="btnBorrar" data-toggle="tooltip" title="Borrar" aria-label="Left Align">
+                Borrar
+            </button>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Boton para cancelar
+            $("#btnBorrar").click(function (ev) {
+                var associateNumber = $('#AssociateNumber').val();
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-success",
+                        cancelButton: "btn btn-danger"
+                    },
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "¿Estas Seguro?",
+                    text: "Una vez eliminado el registro no podrás recuperarlo",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Eliminar",
+                    cancelButtonText: "Cancelar",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Enviando...',
+                            text: 'Por favor espera.',
+                            icon: 'info',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading(); // Muestra un indicador de carga
+                            }
+                        });
+                        $.ajax({
+                            url: '@Url.Action("DeleteConfirmed", "Associate")', // URL de ejemplo
+                            method: 'POST',
+                            data: { id: associateNumber },
+                            success: function (response) {
+                                // Al terminar con éxito, muestra un SweetAlert de confirmación
+                                Swal.fire({
+                                    title: 'Éxito',
+                                    text: 'La solicitud fue enviada correctamente.',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+                                        window.location.href = '@Url.Action("Index", "Associate")'; // URL a la que deseas redirigir
+                                }
+                            });;
+                            },
+                            error: function () {
+                                // Si la solicitud falla, muestra un mensaje de error
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Ocurrió un error al enviar la solicitud.',
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire({
+                            title: "Cancelado",
+                            text: "Se ha cancelado la eliminación",
+                            icon: "error"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}
+
